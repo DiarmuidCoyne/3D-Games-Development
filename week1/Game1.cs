@@ -44,37 +44,44 @@ namespace week1
             base.Draw(gameTime);
         }
 
-        VertexPositionColor[] colorVertices;
+        VertexPositionColorTexture[] colorVertices;
         BasicEffect colorEffect;
         short[] colorIndeces;
         VertexBuffer colorVertexBuffer;
         IndexBuffer colorIndexBuffer;
+
         public void InitColorVertices()
         {
             colorEffect = new BasicEffect(GraphicsDevice);
-            colorEffect.TextureEnabled = false;
+            colorEffect.TextureEnabled = true;
             colorEffect.VertexColorEnabled = true;
+            colorEffect.Texture = Content.Load<Texture2D>("rockstexture");
+            
 
-            colorVertices = new VertexPositionColor[4];//6 vertices
+            colorVertices = new VertexPositionColorTexture[4];//6 vertices
 
             //Clockwise order
             //T1
             //A - Bottom Right
             colorVertices[0].Position = new Vector3(1, -1, 0);
             colorVertices[0].Color = Color.Red;
+            colorVertices[0].TextureCoordinate = new Vector2(1, 1);
 
             //B - Bottom Left
             colorVertices[1].Position = new Vector3(-1, -1, 0);
             colorVertices[1].Color = Color.Green;
+            colorVertices[1].TextureCoordinate = new Vector2(0, 1);
 
             //C - Top Left
             colorVertices[2].Position = new Vector3(-1, 1, 0);
             colorVertices[2].Color = Color.Blue;
+            colorVertices[2].TextureCoordinate = new Vector2(0, 0);
 
             //T2
             //A - Bottom Right
             colorVertices[3].Position = new Vector3(1, 1, 0);
             colorVertices[3].Color = Color.Yellow;
+            colorVertices[3].TextureCoordinate = new Vector2(1, 0);
 
             //C - Top Left
             //colorVertices[4].Position = new Vector3(-1, 1, 0);
@@ -97,7 +104,7 @@ namespace week1
             colorIndeces [4] = 2;
             colorIndeces [5] = 3;
 
-            colorVertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, colorVertices.Length, BufferUsage.WriteOnly);
+            colorVertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColorTexture.VertexDeclaration, colorVertices.Length, BufferUsage.WriteOnly);
             colorIndexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.SixteenBits, colorIndeces.Length, BufferUsage.WriteOnly);
         }
 
@@ -117,7 +124,7 @@ namespace week1
 
             colorEffect.CurrentTechnique.Passes[0].Apply();
 
-            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(
+            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColorTexture>(
                 PrimitiveType.TriangleList,
                 colorVertices,
                 0,
