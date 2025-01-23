@@ -46,13 +46,15 @@ namespace week1
 
         VertexPositionColor[] colorVertices;
         BasicEffect colorEffect;
+        short[] colorIndeces;
         public void InitColorVertices()
         {
             colorEffect = new BasicEffect(GraphicsDevice);
+            
             colorEffect.TextureEnabled = false;
             colorEffect.VertexColorEnabled = true;
 
-            colorVertices = new VertexPositionColor[6];//6 vertices
+            colorVertices = new VertexPositionColor[4];//6 vertices
 
             //Clockwise order
             //T1
@@ -70,16 +72,29 @@ namespace week1
 
             //T2
             //A - Bottom Right
-            colorVertices[3].Position = new Vector3(1, -1, 0);
+            colorVertices[3].Position = new Vector3(1, 1, 0);
             colorVertices[3].Color = Color.Yellow;
 
             //C - Top Left
-            colorVertices[4].Position = new Vector3(-1, 1, 0);
-            colorVertices[4].Color = Color.Purple;
+            //colorVertices[4].Position = new Vector3(-1, 1, 0);
+            //colorVertices[4].Color = Color.Purple;
 
             //D - Top Right
-            colorVertices[5].Position = new Vector3(1, 1, 0);
-            colorVertices[5].Color = Color.Cyan;
+            //colorVertices[5].Position = new Vector3(1, 1, 0);
+            //colorVertices[5].Color = Color.Cyan;
+
+            colorIndeces = new short[6];
+
+            //Triangles
+            //T1
+            colorIndeces[0] = 0;
+            colorIndeces[1] = 1;
+            colorIndeces[2] = 2;
+
+            //T2
+            colorIndeces [3] = 0;
+            colorIndeces [4] = 2;
+            colorIndeces [5] = 3;
         }
 
         public void DrawColorVertices()
@@ -95,12 +110,15 @@ namespace week1
 
             colorEffect.CurrentTechnique.Passes[0].Apply();
 
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(
+            GraphicsDevice.DrawUserIndexedPrimitives<VertexPositionColor>(
                 PrimitiveType.TriangleList,
                 colorVertices,
                 0,
-                colorVertices.Length / 3,
-                VertexPositionColor.VertexDeclaration);
+                colorVertices.Length,
+                colorIndeces,
+                0,
+                colorIndeces.Length/3
+                );
         }
     }
 }
