@@ -47,10 +47,11 @@ namespace week1
         VertexPositionColor[] colorVertices;
         BasicEffect colorEffect;
         short[] colorIndeces;
+        VertexBuffer colorVertexBuffer;
+        IndexBuffer colorIndexBuffer;
         public void InitColorVertices()
         {
             colorEffect = new BasicEffect(GraphicsDevice);
-            
             colorEffect.TextureEnabled = false;
             colorEffect.VertexColorEnabled = true;
 
@@ -95,10 +96,16 @@ namespace week1
             colorIndeces [3] = 0;
             colorIndeces [4] = 2;
             colorIndeces [5] = 3;
+
+            colorVertexBuffer = new VertexBuffer(GraphicsDevice, VertexPositionColor.VertexDeclaration, colorVertices.Length, BufferUsage.WriteOnly);
+            colorIndexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.SixteenBits, colorIndeces.Length, BufferUsage.WriteOnly);
         }
 
         public void DrawColorVertices()
         {
+            GraphicsDevice.SetVertexBuffer(colorVertexBuffer);
+            GraphicsDevice.Indices = colorIndexBuffer;
+
             colorEffect.World = Matrix.Identity * Matrix.CreateTranslation(0, 0, -5);
             colorEffect.View = Matrix.CreateLookAt(new Vector3(0, 0.01f, 0), new Vector3(0, 0, -1), Vector3.Up);
 
